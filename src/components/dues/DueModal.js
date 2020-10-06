@@ -20,7 +20,13 @@ const DueModal = ({ modalData, setModalData }) => {
       <div className="modal-card">
         <header className="modal-card-head has-text-centered">
           <p class="modal-card-title">Payment</p>
-          <button className="delete" aria-label="close"></button>
+          <button
+            className="delete"
+            aria-label="close"
+            onClick={() => {
+              setModalData(null);
+            }}
+          ></button>
         </header>
         <form className="modal-card-body">
           <div className="container px-6">
