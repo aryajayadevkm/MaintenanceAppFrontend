@@ -2,7 +2,7 @@ import { render } from "@testing-library/react";
 import React, { useState, useEffect } from "react";
 import DueContext from "../../context/dues/DueContext";
 
-const DueItem = ({ dueItem, setModal }) => {
+const DueItem = ({ dueItem, setModalData }) => {
   const {
     id,
     flat_no,
@@ -16,7 +16,7 @@ const DueItem = ({ dueItem, setModal }) => {
   return (
     <tr
       onClick={() => {
-        setModal(dueItem);
+        setModalData(dueItem);
       }}
     >
       <td>{flat_no}</td>

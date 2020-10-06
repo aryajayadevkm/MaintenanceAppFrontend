@@ -6,14 +6,7 @@ import DueModal from "./DueModal";
 const DuesTable = () => {
   const dueContext = useContext(DueContext);
   const { dues } = dueContext;
-  const [duesModalInfo, setDuesModalInfo] = useState(null);
-
-  function Modal({ due_item }) {
-    if (!due_item) {
-      return null;
-    }
-    return <DueModal param={{ due_item }} />;
-  }
+  const [modalData, setModalData] = useState(null);
 
   return (
     <div className="table is-hoverable">
@@ -28,10 +21,14 @@ const DuesTable = () => {
       </thead>
       <tbody>
         {dues.map((due) => (
-          <DueItem key={due.id} dueItem={due} setModal={setDuesModalInfo} />
+          <DueItem key={due.id} dueItem={due} setModalData={setModalData} />
         ))}
       </tbody>
-      <Modal due_item={duesModalInfo} />
+      {modalData != null ? (
+        <DueModal modalData={modalData} setModalData={setModalData} />
+      ) : (
+        ""
+      )}
     </div>
   );
 };

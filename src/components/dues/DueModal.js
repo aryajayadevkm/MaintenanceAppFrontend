@@ -1,22 +1,21 @@
 import React, { useState, useEffect } from "react";
 
-const DueModal = ({ param }) => {
-  console.log({ param });
-  const dueDetails = param.due_item;
+const DueModal = ({ modalData, setModalData }) => {
+  console.log({ modalData });
 
   const [record, setRecord] = useState({
     months: [],
     amount_paid: "",
     remarks: "",
   });
-  const [isActive, setIsActive] = useState("is-active");
+
   const { months, amount_paid, remarks } = record;
 
   const onChange = (e) =>
     setRecord({ ...record, [e.target.name]: e.target.value });
 
   return (
-    <div className={`modal ${isActive}`}>
+    <div className="modal is-active">
       <div className="modal-background"></div>
       <div className="modal-card">
         <header className="modal-card-head has-text-centered">
@@ -34,8 +33,8 @@ const DueModal = ({ param }) => {
                       <input
                         className="input"
                         type="text"
-                        placeholder={dueDetails.flat_no}
-                        value={dueDetails.flat_no}
+                        placeholder={modalData.flat_no}
+                        value={modalData.flat_no}
                       />
                     </p>
                   </div>
@@ -46,7 +45,7 @@ const DueModal = ({ param }) => {
                         className="input"
                         type="text"
                         placeholder="owner"
-                        value={dueDetails.owner_name}
+                        value={modalData.owner_name}
                       />
                     </p>
                   </div>
@@ -61,7 +60,7 @@ const DueModal = ({ param }) => {
                         className="input"
                         type="text"
                         placeholder="maintenance_charge"
-                        value={dueDetails.maintenance_charge}
+                        value={modalData.maintenance_charge}
                       />
                     </div>
                   </div>
@@ -72,7 +71,7 @@ const DueModal = ({ param }) => {
                         className="input"
                         type="text"
                         placeholder="dues"
-                        value={dueDetails.dues}
+                        value={modalData.dues}
                       />
                     </div>
                   </div>
@@ -113,7 +112,7 @@ const DueModal = ({ param }) => {
             </div>
             <div className="field">
               <label className="label">Choose months</label>
-              {dueDetails.months.map((month) => (
+              {modalData.months.map((month) => (
                 <span class="tag is-info is-light is-clickable">{month}</span>
               ))}
             </div>
@@ -124,7 +123,7 @@ const DueModal = ({ param }) => {
           <button
             className="button"
             onClick={() => {
-              setIsActive(null);
+              setModalData(null);
             }}
           >
             Cancel
