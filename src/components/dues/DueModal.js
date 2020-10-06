@@ -9,14 +9,14 @@ const DueModal = ({ param }) => {
     amount_paid: "",
     remarks: "",
   });
-
+  const [isActive, setIsActive] = useState("is-active");
   const { months, amount_paid, remarks } = record;
 
   const onChange = (e) =>
     setRecord({ ...record, [e.target.name]: e.target.value });
 
   return (
-    <div className="modal is-active">
+    <div className={`modal ${isActive}`}>
       <div className="modal-background"></div>
       <div className="modal-card">
         <header className="modal-card-head has-text-centered">
@@ -121,10 +121,18 @@ const DueModal = ({ param }) => {
         </form>
         <footer className="modal-card-foot">
           <button className="button is-success">Save changes</button>
-          <button className="button">Cancel</button>
+          <button
+            className="button"
+            onClick={() => {
+              setIsActive(null);
+            }}
+          >
+            Cancel
+          </button>
         </footer>
       </div>
     </div>
   );
 };
+
 export default DueModal;

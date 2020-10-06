@@ -3,16 +3,17 @@ import DueContext from "../../context/dues/DueContext";
 import DueItem from "./DueItem";
 import DueModal from "./DueModal";
 
-function Modal({ due_item }) {
-  if (!due_item) {
-    return null;
-  }
-  return <DueModal param={{ due_item }} />;
-}
 const DuesTable = () => {
   const dueContext = useContext(DueContext);
   const { dues } = dueContext;
   const [duesModalInfo, setDuesModalInfo] = useState(null);
+
+  function Modal({ due_item }) {
+    if (!due_item) {
+      return null;
+    }
+    return <DueModal param={{ due_item }} />;
+  }
 
   return (
     <div className="table is-hoverable">
