@@ -24,10 +24,8 @@ const DuesTable = () => {
           <DueItem key={due.id} dueItem={due} setModalData={setModalData} />
         ))}
       </tbody>
-      {modalData != null ? (
+      {modalData && (
         <DueModal modalData={modalData} setModalData={setModalData} />
-      ) : (
-        ""
       )}
     </div>
   );
