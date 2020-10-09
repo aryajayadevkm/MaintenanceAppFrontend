@@ -31,7 +31,7 @@ const DuesState = (props) => {
         maintenance_charge: 3000,
         stock: 0,
         dues: 3000,
-        months: ["2020-09-22"],
+        months: ["2020-03-22"],
       },
     ],
     current: null,

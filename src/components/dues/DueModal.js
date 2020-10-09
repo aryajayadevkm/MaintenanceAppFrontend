@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from "react";
+import MonthPicker from "../month-picker/MonthPicker";
+require("react-month-picker-input/dist/react-month-picker-input.css");
 
 const DueModal = ({ modalData, setModalData }) => {
-  console.log({ modalData });
-
   const [record, setRecord] = useState({
-    months: [],
+    months: modalData.months ?? [],
     amount_paid: "",
     remarks: "",
   });
 
   const { months, amount_paid, remarks } = record;
 
-  const onChange = (e) =>
+  const onChange = (e) => {
     setRecord({ ...record, [e.target.name]: e.target.value });
+  };
 
   return (
     <div className="modal is-active">
@@ -84,43 +85,43 @@ const DueModal = ({ modalData, setModalData }) => {
                 </div>
               </div>
             </fieldset>
-            <div className="pt-2">
-              <div className="field is-horizontal">
-                <div className="field-body">
-                  <div className="field">
-                    <label className="label">Amount</label>
-                    <div className="control">
-                      <input
-                        className="input"
-                        type="text"
-                        name="amount_paid"
-                        placeholder="Enter amount"
-                        value={amount_paid}
-                        onChange={onChange}
-                      />
-                    </div>
+
+            <div className="field is-horizontal pt-2">
+              <div className="field-body">
+                <div className="field">
+                  <label className="label">Amount</label>
+                  <div className="control">
+                    <input
+                      className="input"
+                      type="text"
+                      name="amount_paid"
+                      placeholder="Enter amount"
+                      value={amount_paid}
+                      onChange={onChange}
+                    />
                   </div>
-                  <div className="field">
-                    <label className="label">Remarks</label>
-                    <div className="control">
-                      <input
-                        className="input"
-                        type="text"
-                        name="remarks"
-                        placeholder="remarks"
-                        value={remarks}
-                        onChange={onChange}
-                      />
-                    </div>
+                </div>
+                <div className="field">
+                  <label className="label">Remarks</label>
+                  <div className="control">
+                    <input
+                      className="input"
+                      type="text"
+                      name="remarks"
+                      placeholder="remarks"
+                      value={remarks}
+                      onChange={onChange}
+                    />
                   </div>
                 </div>
               </div>
             </div>
             <div className="field">
               <label className="label">Choose months</label>
-              {modalData.months.map((month) => (
-                <span class="tag is-info is-light is-clickable">{month}</span>
-              ))}
+              <MonthPicker record={record} setRecord={setRecord} />
+            </div>
+            <div className="column">
+              <label className="label pt-1">Chosen months</label>
             </div>
           </div>
         </form>
