@@ -1,10 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import MonthPicker from "../month-picker/MonthPicker";
-require("react-month-picker-input/dist/react-month-picker-input.css");
 
 const DueModal = ({ modalData, setModalData }) => {
+  // convert date-string to {year:year, month:month} object
+  function makeObject(date) {
+    var year = parseInt(date.slice(0, 4));
+    var month = parseInt(date.slice(5, 7));
+    return { year: year, month: month };
+  }
+
   const [record, setRecord] = useState({
-    months: modalData.months ?? [],
+    months: modalData.months.map(makeObject),
     amount_paid: "",
     remarks: "",
   });
@@ -20,7 +26,7 @@ const DueModal = ({ modalData, setModalData }) => {
       <div className="modal-background"></div>
       <div className="modal-card">
         <header className="modal-card-head has-text-centered">
-          <p class="modal-card-title">Payment</p>
+          <p className="modal-card-title">Payment</p>
           <button
             className="delete"
             aria-label="close"
@@ -42,6 +48,7 @@ const DueModal = ({ modalData, setModalData }) => {
                         type="text"
                         placeholder={modalData.flat_no}
                         value={modalData.flat_no}
+                        readOnly={true}
                       />
                     </p>
                   </div>
@@ -53,6 +60,7 @@ const DueModal = ({ modalData, setModalData }) => {
                         type="text"
                         placeholder="owner"
                         value={modalData.owner_name}
+                        readOnly={true}
                       />
                     </p>
                   </div>
@@ -68,6 +76,7 @@ const DueModal = ({ modalData, setModalData }) => {
                         type="text"
                         placeholder="maintenance_charge"
                         value={modalData.maintenance_charge}
+                        readOnly={true}
                       />
                     </div>
                   </div>
@@ -79,6 +88,7 @@ const DueModal = ({ modalData, setModalData }) => {
                         type="text"
                         placeholder="dues"
                         value={modalData.dues}
+                        readOnly={true}
                       />
                     </div>
                   </div>

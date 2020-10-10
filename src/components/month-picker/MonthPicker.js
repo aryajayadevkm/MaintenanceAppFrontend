@@ -11,7 +11,7 @@ const MonthBox = (props) => {
   return (
     <span onClick={_handleClick}>
       <i
-        class="fa fa-plus-square-o"
+        className="fa fa-plus-square-o"
         aria-hidden="true"
         style={{ color: "blue" }}
       />
@@ -21,7 +21,6 @@ const MonthBox = (props) => {
 
 const MonthPicker = ({ record, setRecord }) => {
   const pickMulti = React.createRef();
-  const months = record.months;
 
   //   show month-picker
   const handleClickMultiBox = (e) => {
@@ -30,24 +29,19 @@ const MonthPicker = ({ record, setRecord }) => {
 
   //   check if month-year already selected
   const getIndex = (date) => {
-    return months.findIndex((item) => {
-      return item.slice(0, 8) === date.slice(0, 8);
+    return record.months.findIndex((item) => {
+      return item.year === date.year && item.month === date.month;
     });
-  };
-
-  //   make string of date
-  const makeText = (year, month) => {
-    var monthVal = (month === 11) | (month === 12) ? month : "0" + month;
-    return year + "-" + monthVal + "-" + "01";
   };
 
   //   add/remove month-year from array
   const handleMultiChange = (year, month) => {
-    var date = makeText(year, month);
+    var date = { year: year, month: month };
     var index = getIndex(date);
+    console.log("index: " + index);
     return index === -1
-      ? setRecord({ ...record, months: [...months, date] })
-      : months.splice(index, 1);
+      ? setRecord({ ...record, months: [...record.months, date] })
+      : record.months.splice(index, 1);
   };
 
   //   on clicking away from month-picker
@@ -78,8 +72,8 @@ const MonthPicker = ({ record, setRecord }) => {
         <div className="edit">
           <Picker
             ref={pickMulti}
-            years={[20015, 2016, 2017, 2018, 2019, 2020]}
-            value={months}
+            years={[2015, 2016, 2017, 2018, 2019, 2020]}
+            value={record.months}
             lang={pickerLang.months}
             onChange={handleMultiChange}
             onDismiss={onDismiss}
