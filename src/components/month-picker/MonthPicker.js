@@ -11,7 +11,7 @@ const MonthBox = (props) => {
   return (
     <span onClick={_handleClick}>
       <i
-        className="fa fa-plus-square-o"
+        className="fa fa-calendar-plus-o"
         aria-hidden="true"
         style={{ color: "blue" }}
       />
@@ -19,7 +19,7 @@ const MonthBox = (props) => {
   );
 };
 
-const MonthPicker = ({ record, setRecord }) => {
+const MonthPicker = ({ record, setRecord, setPickerDismissed }) => {
   const pickMulti = React.createRef();
 
   //   show month-picker
@@ -47,6 +47,7 @@ const MonthPicker = ({ record, setRecord }) => {
   //   on clicking away from month-picker
   const onDismiss = () => {
     console.log(record);
+    setPickerDismissed(true);
   };
 
   const pickerLang = {
