@@ -39,9 +39,13 @@ const MonthPicker = ({ record, setRecord, setPickerDismissed }) => {
     var date = { year: year, month: month };
     var index = getIndex(date);
     console.log("index: " + index);
-    return index === -1
-      ? setRecord({ ...record, months: [...record.months, date] })
-      : record.months.splice(index, 1);
+    if (index === -1) {
+      setRecord({ ...record, months: [...record.months, date] });
+    } else {
+      var monthCopy = record.months;
+      monthCopy.splice(index, 1);
+      setRecord({ ...record, months: monthCopy });
+    }
   };
 
   //   on clicking away from month-picker
