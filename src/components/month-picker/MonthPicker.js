@@ -38,7 +38,6 @@ const MonthPicker = ({ record, setRecord, setPickerDismissed }) => {
   const handleMultiChange = (year, month) => {
     var date = { year: year, month: month };
     var index = getIndex(date);
-    console.log("index: " + index);
     if (index === -1) {
       setRecord({ ...record, months: [...record.months, date] });
     } else {
