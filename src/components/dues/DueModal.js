@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import MonthPicker from "../month-picker/MonthPicker";
 
 const DueModal = ({ modalData, setModalData }) => {
@@ -162,9 +162,9 @@ const DueModal = ({ modalData, setModalData }) => {
             </div>
           </div>
         </form>
-        <footer className="modal-card-foot">
-          <div className="buttons px-1 py-2 is-puller-right">
-            <button className="button is-primary has-text-white-bis pad1y">
+        <footer className="modal-card-foot buttons is-right">
+          <div className="pr-1 pt-1">
+            <button className="button is-primary has-text-white-bis">
               Save changes
             </button>
             <button
