@@ -17,7 +17,10 @@ const DueModal = ({ modalData, setModalData }) => {
   };
 
   const [record, setRecord] = useState({
-    months: modalData.months.map(makeObject),
+    months:
+      modalData.months.length === 0
+        ? [{ year: 2020, month: 10 }]
+        : modalData.months.map(makeObject),
     amount_paid: "",
     remarks: "",
   });
