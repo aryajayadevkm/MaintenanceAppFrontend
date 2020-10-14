@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "react-month-picker/css/month-picker.css";
 import Picker from "react-month-picker";
 
@@ -38,6 +38,7 @@ const MonthPicker = ({ record, setRecord, setPickerDismissed }) => {
   const handleMultiChange = (year, month) => {
     var date = { year: year, month: month };
     var index = getIndex(date);
+
     if (index === -1) {
       setRecord({ ...record, months: [...record.months, date] });
     } else {
