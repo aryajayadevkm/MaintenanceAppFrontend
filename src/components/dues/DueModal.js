@@ -1,7 +1,28 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import MonthPicker from "../month-picker/MonthPicker";
+import DueContext from "../../context/dues/DueContext";
 
 const DueModal = ({ modalData, setModalData }) => {
+
+  const dueContext = useContext(DueContext);
+  const { updateDue } = dueContext;
+
+  const [record, setRecord] = useState({
+    id: modalData.id,
+    months: [],
+    amount_paid: "",
+    remarks: "",
+  });
+
+  const [selectedMonths, setSelectedMonths] = useState(
+    modalData.months.length === 0
+      ? [{ year: 2020, month: 10 }]
+      : modalData.months.map(makeObject)
+  )
+
+  const [pickerDismissed, setPickerDismissed] = useState(true);
+  const { amount_paid, remarks } = record;
+
   // convert date-string to {year:year, month:month} object
   function makeObject(date) {
     var year = parseInt(date.slice(0, 4));
@@ -13,24 +34,28 @@ const DueModal = ({ modalData, setModalData }) => {
   const makeText = (year, month) => {
     var monthVal =
       (month === 11) | (month === 12) | (month === 10) ? month : "0" + month;
-    return monthVal + "-" + year;
+    return year + "-" + monthVal + "-01";
   };
 
-  const [record, setRecord] = useState({
-    months:
-      modalData.months.length === 0
-        ? [{ year: 2020, month: 10 }]
-        : modalData.months.map(makeObject),
-    amount_paid: "",
-    remarks: "",
-  });
-
-  const [pickerDismissed, setPickerDismissed] = useState(true);
-  const { months, amount_paid, remarks } = record;
 
   const onChange = (e) => {
     setRecord({ ...record, [e.target.name]: e.target.value });
   };
+
+  const onSubmit = e => {
+    e.preventDefault();
+
+    // Month object to text
+    var monthsText = Object.assign(
+      [], selectedMonths
+        .map((item) => makeText(item.year, item.month)));
+
+    const due = { "Dues": [{ ...record, months: monthsText }] };
+
+    console.log(due);
+    updateDue(due);
+    setModalData(null);
+  }
 
   return (
     <div className="modal has-overflow is-active">
@@ -48,7 +73,7 @@ const DueModal = ({ modalData, setModalData }) => {
             ></button>
           </div>
         </header>
-        <form className="modal-card-body">
+        <form className="modal-card-body" onSubmit={onSubmit}>
           <div className="container px-4">
             <fieldset disabled>
               <div className="field is-horizontal">
@@ -114,6 +139,8 @@ const DueModal = ({ modalData, setModalData }) => {
                 <label className="label">Months</label>
                 <span className="px-2">
                   <MonthPicker
+                    selectedMonths={selectedMonths}
+                    setSelectedMonths={setSelectedMonths}
                     record={record}
                     setRecord={setRecord}
                     setPickerDismissed={setPickerDismissed}
@@ -122,7 +149,7 @@ const DueModal = ({ modalData, setModalData }) => {
                 {pickerDismissed && (
                   <div className="tags">
                     <span>
-                      {record.months.map((item) => (
+                      {selectedMonths.map((item) => (
                         <div className={`tag is-info is-light`}>
                           {makeText(item.year, item.month)}
                         </div>
@@ -133,7 +160,7 @@ const DueModal = ({ modalData, setModalData }) => {
               </div>
             </div>
 
-            <div className="field is-horizontal">
+            <div className="field is-horizontal pb-4">
               <div className="field-body">
                 <div className="field">
                   <label className="label">Amount</label>
@@ -164,22 +191,23 @@ const DueModal = ({ modalData, setModalData }) => {
               </div>
             </div>
           </div>
+
+          <footer className="modal-card-foot buttons is-right">
+            <div className="pr-1 pt-1">
+              <button className="button is-primary has-text-white-bis" type="submit">
+                Save changes
+              </button>
+              <button
+                className="button"
+                onClick={() => {
+                  setModalData(null);
+                }}
+              >
+                Cancel
+            </button>
+            </div>
+          </footer>
         </form>
-        <footer className="modal-card-foot buttons is-right">
-          <div className="pr-1 pt-1">
-            <button className="button is-primary has-text-white-bis">
-              Save changes
-            </button>
-            <button
-              className="button"
-              onClick={() => {
-                setModalData(null);
-              }}
-            >
-              Cancel
-            </button>
-          </div>
-        </footer>
       </div>
     </div>
   );
