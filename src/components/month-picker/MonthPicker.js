@@ -19,7 +19,7 @@ const MonthBox = (props) => {
   );
 };
 
-const MonthPicker = ({ record, setRecord, setPickerDismissed }) => {
+const MonthPicker = ({ setPickerDismissed, selectedMonths, setSelectedMonths }) => {
   const pickMulti = React.createRef();
 
   //   show month-picker
@@ -29,7 +29,7 @@ const MonthPicker = ({ record, setRecord, setPickerDismissed }) => {
 
   //   check if month-year already selected
   const getIndex = (date) => {
-    return record.months.findIndex((item) => {
+    return selectedMonths.findIndex((item) => {
       return item.year === date.year && item.month === date.month;
     });
   };
@@ -40,17 +40,17 @@ const MonthPicker = ({ record, setRecord, setPickerDismissed }) => {
     var index = getIndex(date);
 
     if (index === -1) {
-      setRecord({ ...record, months: [...record.months, date] });
+      setSelectedMonths([...selectedMonths, date]);
     } else {
-      var monthCopy = record.months;
+      const monthCopy = Object.assign([], selectedMonths);
       monthCopy.splice(index, 1);
-      setRecord({ ...record, months: monthCopy });
+      setSelectedMonths(monthCopy);
     }
   };
 
   //   on clicking away from month-picker
   const onDismiss = () => {
-    console.log(record);
+    console.log(selectedMonths);
     setPickerDismissed(true);
   };
 
@@ -77,8 +77,8 @@ const MonthPicker = ({ record, setRecord, setPickerDismissed }) => {
         <div className="edit">
           <Picker
             ref={pickMulti}
-            years={[2015, 2016, 2017, 2018, 2019, 2020]}
-            value={record.months}
+            years={[2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022]}
+            value={selectedMonths}
             lang={pickerLang.months}
             onChange={handleMultiChange}
             onDismiss={onDismiss}

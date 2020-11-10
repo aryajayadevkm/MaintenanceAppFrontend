@@ -1,36 +1,84 @@
 @import "../node_modules/bulma/css/bulma.css";
 
 .App-logo {
-  height: 40vmin;
-  pointer-events: none;
+	height: 40vmin;
+	pointer-events: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+	.App-logo {
+		animation: App-logo-spin infinite 20s linear;
+	}
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+	background-color: #282c34;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	font-size: calc(10px + 2vmin);
+	color: white;
 }
 
 .App-link {
-  color: #61dafb;
+	color: #61dafb;
 }
 
 @keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+/* Checkboxes styles  */
+input[type="checkbox"] {
+	display: none;
+}
+
+input[type="checkbox"] + label {
+	display: block;
+	position: relative;
+	padding-left: 35px;
+	margin-bottom: 20px;
+	font: 14px/20px "Open Sans", Arial, sans-serif;
+	color: #ddd;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+}
+
+input[type="checkbox"] + label:last-child {
+	margin-bottom: 0;
+}
+
+input[type="checkbox"] + label:before {
+	content: "";
+	display: block;
+	width: 20px;
+	height: 20px;
+	border: 1px solid #6cc0e5;
+	position: absolute;
+	left: 0;
+	top: 0;
+	opacity: 0.6;
+	-webkit-transition: all 0.12s, border-color 0.08s;
+	transition: all 0.12s, border-color 0.08s;
+}
+
+input[type="checkbox"]:checked + label:before {
+	width: 10px;
+	top: -5px;
+	left: 5px;
+	border-radius: 0;
+	opacity: 1;
+	border-top-color: transparent;
+	border-left-color: transparent;
+	-webkit-transform: rotate(45deg);
+	transform: rotate(45deg);
 }

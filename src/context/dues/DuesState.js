@@ -1,60 +1,75 @@
 import React, { useReducer } from "react";
+import axios from "axios";
 import DueContext from "./DueContext";
 import duesReducer from "./DuesReducer";
-import { UPDATE_DUE, SET_CURRENT } from "../types";
+import { ADD_DUE, GET_DUES, UPDATE_DUE, SET_CURRENT } from "../types";
 
 const DuesState = (props) => {
-  const initialState = {
-    dues: [
-      {
-        id: 17,
-        flat_no: "A1",
-        owner_name: "Arya Jayadev  K M",
-        maintenance_charge: 1000,
-        stock: 2000,
-        dues: 0,
-        months: [],
-      },
-      {
-        id: 18,
-        flat_no: "A2",
-        owner_name: "Amritha Jayadev K M",
-        maintenance_charge: 2000,
-        stock: 0,
-        dues: 2000,
-        months: ["2020-09-22"],
-      },
-      {
-        id: 19,
-        flat_no: "A3",
-        owner_name: "Abc Def",
-        maintenance_charge: 3000,
-        stock: 0,
-        dues: 3000,
-        months: ["2020-02-10", "2020-03-22", "2020-04-10"],
-      },
-    ],
-    current: null,
-  };
+	const initialState = {
+		dues: [],
+		current: null,
+	};
 
-  const [state, dispatch] = useReducer(duesReducer, initialState);
+	const [state, dispatch] = useReducer(duesReducer, initialState);
 
-  // Add Due
+	// Get dues
+	const getDues = async () => {
+		const res = await axios.get("http://127.0.0.1:8000/api/payments/");
+		dispatch({
+			type: GET_DUES,
+			payload: res.data,
+		});
+	};
 
-  // Update Due
+	// Update Due
+	const updateDue = async (due) => {
+		const config = {
+			headers: {
+				"Content-Type": "application/json",
+			},
+		};
+		const res = await axios.post("http://127.0.0.1:8000/api/payments/", due);
 
-  // Set Current Due
-  const setCurrent = (due) => {
-    dispatch({ type: SET_CURRENT, payload: due });
-  };
+		dispatch({
+			type: UPDATE_DUE,
+			payload: res.data,
+		});
+		console.log(res.data);
+	};
+	// Match or unmatch bills
+	const billMatching = async (billIds) => {
+		const config = {
+			headers: {
+				"Content-Type": "application/json",
+			},
+		};
+		const res = await axios.post(
+			"http://localhost:8000/api/match-bills/",
+			billIds
+		);
+		console.log(res.data);
+	};
 
-  return (
-    <DueContext.Provider
-      value={{ dues: state.dues, current: state.current, setCurrent }}
-    >
-      {props.children}
-    </DueContext.Provider>
-  );
+	// Set Current Due
+	const setCurrent = (due) => {
+		dispatch({ type: SET_CURRENT, payload: due });
+	};
+
+	return (
+		<DueContext.Provider
+			value={{
+				dues: state.dues,
+				current: state.current,
+				billIds: state.billIds,
+				setCurrent,
+				getDues,
+				updateDue,
+				billMatching,
+			}}
+		>
+			{props.children}
+		</DueContext.Provider>
+	);
 };
 
 export default DuesState;
