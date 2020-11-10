@@ -8,34 +8,37 @@ import Home from "./components/pages/Home";
 import Dues from "./components/pages/DuesPage";
 import Titlebar from "./components/layout/Titlebar";
 import DuesState from "./context/dues/DuesState";
+import BillsState from "./context/bills/BillsState";
 
 import "./App.sass";
 function App() {
-  return (
-    <Router>
-      <div className="App">
-        <Navbar />
-        <div className="tile is-ancestor">
-          <div className="tile is-2 has-background-black-bis">
-            <Sidenav />
-          </div>
-          <div className="tile is-vertical">
-            <Titlebar />
-            <div className="tile is-parent">
-              <div className="tile is-child">
-                <Switch>
-                  <Route exact path="/" component={Home} />
-                  <DuesState>
-                    <Route exact path="/dues" component={Dues} />
-                  </DuesState>
-                </Switch>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </Router>
-  );
+	return (
+		<Router>
+			<div className="App">
+				<Navbar />
+				<div className="tile is-ancestor">
+					<div className="tile is-2 has-background-black-bis">
+						<Sidenav />
+					</div>
+					<div className="tile is-vertical">
+						<Titlebar />
+						<div className="tile is-parent">
+							<div className="tile is-child">
+								<Switch>
+									<Route exact path="/" component={Home} />
+									<DuesState>
+										<BillsState>
+											<Route exact path="/dues" component={Dues} />
+										</BillsState>
+									</DuesState>
+								</Switch>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</Router>
+	);
 }
 
 export default App;
