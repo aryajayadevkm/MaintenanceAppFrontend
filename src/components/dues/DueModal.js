@@ -86,7 +86,7 @@ const DueModal = ({ modalData, setModalData }) => {
 									</div>
 
 									<div className="column">
-										<p className="pl-2 pb-1">{totalDue}</p>
+										<p className="pl-2 pb-1">{Math.abs(totalDue)}</p>
 										<p className="pl-2 pb-1">{paidCopy}</p>
 									</div>
 								</div>
