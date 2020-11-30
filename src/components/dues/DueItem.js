@@ -15,7 +15,7 @@ const DueItem = ({ dueItem, setModalData, flatIds, setFlatIds }) => {
 	};
 
 	//   add/remove month-year from array
-	const onCheck = () => {
+	const onChange = () => {
 		var index = getIndex(id);
 		console.log("index" + index);
 		if (index === -1) {
@@ -34,7 +34,7 @@ const DueItem = ({ dueItem, setModalData, flatIds, setFlatIds }) => {
 					<input
 						type="checkbox"
 						id={id}
-						onClick={onCheck}
+						onClick={onChange}
 						checked={getIndex(id) !== -1 ? true : false}
 					/>
 					<label for={id} />

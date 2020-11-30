@@ -1,66 +1,30 @@
 import React, { useState, useEffect, useContext } from "react";
-import MonthPicker from "../month-picker/MonthPicker";
 import DueContext from "../../context/dues/DueContext";
-import PaymentItem from "./PaymentItem";
-// put modalData in here
+import PaymentRow from "./PaymentRow";
 const DueModal = ({ modalData, setModalData }) => {
-	const dueContext = useContext(DueContext);
-	const { updateDue } = dueContext;
+	// const dueContext = useContext(DueContext);
+	// const { updateDue } = dueContext;
 
-	const { id, flat_no, owner_name, maintenance_charge, dues } = modalData;
+	const { id, flat_no, owner_name, dues } = modalData;
 
-	const [record, setRecord] = useState({
-		id: modalData.id,
-		months: [],
-		amount_paid: "",
-		remarks: "",
-	});
-
-	// const [selectedMonths, setSelectedMonths] = useState(
-	// 	modalData.due_details.length === 0
-	// 		? [{ year: 2020, month: 10 }]
-	// 		: modalData.due_details.map((item) => makeObject(item["due_date"]))
-	// );
-	// console.log(selectedMonths);
+	const [paid, setPaid] = useState(0);
+	const [billIds, setBillIds] = useState([]);
+	const [paidCopy, setPaidCopy] = useState(paid);
 
 	const totalDue = dues.reduce(function (sum, current) {
 		return sum + current.balance;
 	}, 0);
 
-	const [pickerDismissed, setPickerDismissed] = useState(true);
-	const { amount_paid, remarks } = record;
-
-	// convert date-string to {year:year, month:month} object
-	function makeObject(date) {
-		var year = parseInt(date.slice(0, 4));
-		var month = parseInt(date.slice(5, 7));
-		return { year: year, month: month };
-	}
-
-	//   make string of date
-	const makeText = (year, month) => {
-		var monthVal =
-			(month === 11) | (month === 12) | (month === 10) ? month : "0" + month;
-		return year + "-" + monthVal + "-01";
+	const amountChange = (e) => {
+		e.preventDefault();
+		setPaid(e.target.value);
+		setPaidCopy(e.target.value);
 	};
-
-	const onChange = (e) => {
-		setRecord({ ...record, [e.target.name]: e.target.value });
-	};
-
+	useEffect(() => {
+		setBillIds([]);
+	}, [paid]);
 	const onSubmit = (e) => {
 		e.preventDefault();
-
-		// Month object to text
-		// var monthsText = Object.assign(
-		// 	[],
-		// 	selectedMonths.map((item) => makeText(item.year, item.month))
-		// );
-
-		// const due = { Dues: [{ ...record, months: monthsText }] };
-
-		// console.log(due);
-		// updateDue(due);
 		setModalData(null);
 	};
 
@@ -95,9 +59,6 @@ const DueModal = ({ modalData, setModalData }) => {
 										<p className="pl-2 pb-1 has-text-weight-semibold">
 											Amount :
 										</p>
-										<p className="pl-2 pb-1 has-text-weight-semibold">
-											Months :
-										</p>
 									</div>
 									<div className="column">
 										<p className="pl-2 py-1">{flat_no}</p>
@@ -105,20 +66,11 @@ const DueModal = ({ modalData, setModalData }) => {
 										<input
 											className="input"
 											type="text"
-											name="amount_paid"
+											name="paid"
 											placeholder="Enter amount"
-											value={amount_paid}
-											onChange={onChange}
+											value={paid}
+											onChange={amountChange}
 										/>
-										{/* <span className="px-2">
-											<MonthPicker
-												selectedMonths={selectedMonths}
-												setSelectedMonths={setSelectedMonths}
-												record={record}
-												setRecord={setRecord}
-												setPickerDismissed={setPickerDismissed}
-											/>
-										</span> */}
 									</div>
 								</div>
 							</div>
@@ -128,9 +80,14 @@ const DueModal = ({ modalData, setModalData }) => {
 										<p className="pl-2 pb-1 has-text-weight-semibold">
 											Total due :
 										</p>
+										<p className="pl-2 pb-1 has-text-weight-semibold">
+											PaidCopy :
+										</p>
 									</div>
+
 									<div className="column">
 										<p className="pl-2 pb-1">{totalDue}</p>
+										<p className="pl-2 pb-1">{paidCopy}</p>
 									</div>
 								</div>
 							</div>
@@ -143,17 +100,22 @@ const DueModal = ({ modalData, setModalData }) => {
 										<th style={{ width: "20%" }}>Due date</th>
 										<th>Type of charge</th>
 										<th>Charge</th>
-										<th>Due amount</th>
+										<th>Due Amount</th>
+										<th>Applied</th>
+										<th>Balance</th>
 									</tr>
 								</thead>
 								<tbody>
-									<PaymentItem
-										// selectedMonths={selectedMonths}
-										makeText={makeText}
-										dues={modalData.dues}
-										maintenance_charge={modalData.maintenance_charge}
-										amount_paid={amount_paid}
-									/>
+									{dues.map((due) => (
+										<PaymentRow
+											due={due}
+											paid={paid}
+											billIds={billIds}
+											setBillIds={setBillIds}
+											paidCopy={paidCopy}
+											setPaidCopy={setPaidCopy}
+										/>
+									))}
 								</tbody>
 							</table>
 						</div>

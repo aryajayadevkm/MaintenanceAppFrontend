@@ -26,11 +26,11 @@ function App() {
 							<div className="tile is-child">
 								<Switch>
 									<Route exact path="/" component={Home} />
-									<DuesState>
-										<BillsState>
+									<BillsState>
+										<DuesState>
 											<Route exact path="/dues" component={Dues} />
-										</BillsState>
-									</DuesState>
+										</DuesState>
+									</BillsState>
 								</Switch>
 							</div>
 						</div>

@@ -1,7 +1,9 @@
-import React, { useReducer } from "react";
+import React, { useReducer, useContext } from "react";
 import axios from "axios";
 import DueContext from "./DueContext";
 import duesReducer from "./DuesReducer";
+import BillContext from "../bills/BillContext";
+
 import { ADD_DUE, GET_DUES, UPDATE_DUE, SET_CURRENT } from "../types";
 
 const DuesState = (props) => {
@@ -11,6 +13,10 @@ const DuesState = (props) => {
 	};
 
 	const [state, dispatch] = useReducer(duesReducer, initialState);
+	const billContext = useContext(BillContext);
+	const { getBills } = billContext;
+	// console.log("hi");
+	// console.log(getBills);
 
 	// Get dues
 	const getDues = async () => {
@@ -48,6 +54,7 @@ const DuesState = (props) => {
 			billIds
 		);
 		console.log(res.data);
+		getBills();
 	};
 
 	// Set Current Due
