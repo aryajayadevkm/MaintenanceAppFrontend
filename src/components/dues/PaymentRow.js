@@ -54,9 +54,11 @@ const PaymentRow = ({
 	const onChange = (e) => {
 		var index = getIndexFromBillIds(e.target.id);
 		console.log("index" + index);
-		if (index === -1 && paidCopy > 0) {
-			fillPayment(e.target.id);
-			setIsChecked(!isChecked);
+		if (index === -1) {
+			if (paidCopy > 0) {
+				fillPayment(e.target.id);
+				setIsChecked(true);
+			}
 		} else {
 			reset(index);
 		}
