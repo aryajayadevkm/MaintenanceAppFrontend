@@ -9,8 +9,6 @@ const DuesTable = () => {
 	const [modalData, setModalData] = useState(null);
 	const [flatIds, setFlatIds] = useState([]);
 	const [selectAll, setSelectAll] = useState(false);
-	console.log("ids:");
-	console.log(flatIds);
 	useEffect(() => {
 		getDues();
 		// eslint-disable-next-line
@@ -22,11 +20,9 @@ const DuesTable = () => {
 		setSelectAll(!selectAll);
 	};
 	const onClick = (action) => {
-		console.log("hey");
 		var data = { flat_ids: flatIds, action: action };
-		console.log(data);
+		// console.log(data);
 		billMatching({ flat_ids: flatIds, action: action });
-		console.log({ flat_ids: flatIds, action: action });
 	};
 	return (
 		<div className="box">
