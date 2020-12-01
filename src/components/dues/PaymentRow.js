@@ -2,7 +2,8 @@ import React, { Fragment, useState, useEffect } from "react";
 import Moment from "moment";
 
 const PaymentRow = ({
-	due,
+	key,
+	bill,
 	paid,
 	paidCopy,
 	billIds,
@@ -10,21 +11,24 @@ const PaymentRow = ({
 	setBillIds,
 }) => {
 	const [transaction, setTransaction] = useState({
-		applied: due.applied,
-		balance: due.balance,
+		applied: 0,
+		balance: bill.balance,
 	});
-
+	console.log("key ", key);
+	console.log("id ", bill.id);
 	const getIndexFromBillIds = (id) => {
 		return billIds.findIndex((item) => {
 			return item === id;
 		});
 	};
 	const [isChecked, setIsChecked] = useState(false);
+	console.log(billIds);
+	console.log("bill id " + bill.id);
 
 	const fillPayment = (id) => {
 		paidCopy = parseInt(paidCopy);
 		var dif = paidCopy + transaction.balance;
-		console.log("total " + paidCopy + "dif " + dif);
+		// console.log("total " + paidCopy + "dif " + dif);
 		if (dif >= 0) {
 			setTransaction({
 				...transaction,
@@ -37,13 +41,17 @@ const PaymentRow = ({
 			setPaidCopy(0);
 		}
 		setBillIds([...billIds, id]);
-		console.log("transaction: qq" + transaction);
+		// console.log("transaction: qq" + transaction);
 	};
 
 	const reset = (index) => {
 		paidCopy = parseInt(paidCopy);
 		setPaidCopy(paidCopy + transaction.applied);
-		setTransaction({ ...transaction, applied: 0, balance: due.amount });
+		setTransaction({
+			...transaction,
+			applied: 0,
+			balance: bill.balance,
+		});
 
 		const idsCopy = Object.assign([], billIds);
 		idsCopy.splice(index, 1);
@@ -52,20 +60,20 @@ const PaymentRow = ({
 	};
 
 	const onChange = (e) => {
-		var index = getIndexFromBillIds(e.target.id);
-		console.log("index" + index);
+		var index = getIndexFromBillIds(bill.id);
+		console.log("index of billid " + index);
+		console.log("bill id " + bill.id);
 		if (index === -1) {
-			if (paidCopy > 0) {
-				fillPayment(e.target.id);
-				setIsChecked(true);
-			}
+			// console.log("we here!");
+			fillPayment(bill.id);
+			setIsChecked(true);
 		} else {
 			reset(index);
 		}
 	};
-	console.log(billIds);
+
 	useEffect(() => {
-		reset(due.id);
+		reset(bill.id);
 	}, [paid]);
 
 	return (
@@ -74,19 +82,23 @@ const PaymentRow = ({
 				<td>
 					<input
 						type="checkbox"
-						id={due.id}
-						disabled={paidCopy < 0 ? true : false}
+						id={`billno.${bill.id}`}
+						// disabled={paidCopy < 0 ? true : false}
 						onChange={onChange}
 						checked={isChecked}
 					/>
-					<label for={due.id} />
+					<label for={`billno.${bill.id}`} />
 				</td>
-				<td className="is-size-6">{Moment(due.date).format("DD MMM, YYYY")}</td>
+				<td className="is-size-6">
+					{Moment(bill.date).format("DD MMM, YYYY")}
+				</td>
 				<td className="is-size-6">maintenance</td>
-				<td className="is-size-6">{due.amount}</td>
-				<td className="is-size-6">{due.balance}</td>
-				<td className="is-size-6">{transaction.applied}</td>
-				<td className="is-size-6">{-transaction.balance}</td>
+				<td className="is-size-6">{Math.abs(bill.amount)}</td>
+				<td className="is-size-6">{Math.abs(bill.balance)}</td>
+				<td className="is-size-6">
+					{Math.abs(bill.applied + transaction.applied)}
+				</td>
+				<td className="is-size-6">{Math.abs(transaction.balance)}</td>
 			</tr>
 		</Fragment>
 	);

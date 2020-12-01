@@ -78,7 +78,7 @@ const DuesTable = () => {
 								{dues.map((due) => (
 									<DueItem
 										selectAll={selectAll}
-										key={due.id}
+										key={`flatno.${due.id}`}
 										dueItem={due}
 										setModalData={setModalData}
 										flatIds={flatIds}
