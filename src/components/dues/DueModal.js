@@ -2,29 +2,33 @@ import React, { useState, useEffect, useContext } from "react";
 import DueContext from "../../context/dues/DueContext";
 import PaymentRow from "./PaymentRow";
 const DueModal = ({ modalData, setModalData }) => {
-	// const dueContext = useContext(DueContext);
-	// const { updateDue } = dueContext;
+	const dueContext = useContext(DueContext);
+	const { updateDue } = dueContext;
 
 	const { id, flat_no, owner_name, dues } = modalData;
 
 	const [paid, setPaid] = useState(0);
 	const [billIds, setBillIds] = useState([]);
 	const [paidCopy, setPaidCopy] = useState(paid);
+	const [remarks, setRemarks] = useState("");
 
 	const totalDue = dues.reduce(function (sum, current) {
 		return sum + current.balance;
 	}, 0);
 
+	const remarkChange = (e) => {
+		e.preventDefault();
+		setRemarks(e.target.value);
+	};
 	const amountChange = (e) => {
 		e.preventDefault();
 		setPaid(e.target.value);
 		setPaidCopy(e.target.value);
 	};
-	useEffect(() => {
-		setBillIds([]);
-	}, [paid]);
+
 	const onSubmit = (e) => {
 		e.preventDefault();
+		updateDue({ id: id, amount: paid, bill_ids: billIds, remarks: remarks });
 		setModalData(null);
 	};
 
@@ -81,13 +85,24 @@ const DueModal = ({ modalData, setModalData }) => {
 											Total due :
 										</p>
 										<p className="pl-2 pb-1 has-text-weight-semibold">
-											PaidCopy :
+											Total applied :
+										</p>
+										<p className="pl-2 pb-1 has-text-weight-semibold">
+											Remarks :
 										</p>
 									</div>
 
 									<div className="column">
 										<p className="pl-2 pb-1">{Math.abs(totalDue)}</p>
 										<p className="pl-2 pb-1">{paidCopy}</p>
+										<input
+											className="input"
+											type="text"
+											name="remarks"
+											placeholder="Enter remarks"
+											value={remarks}
+											onChange={remarkChange}
+										/>
 									</div>
 								</div>
 							</div>
@@ -106,9 +121,10 @@ const DueModal = ({ modalData, setModalData }) => {
 									</tr>
 								</thead>
 								<tbody>
-									{dues.map((due) => (
+									{dues.map((bill) => (
 										<PaymentRow
-											due={due}
+											key={`billno.${bill.id}`}
+											bill={bill}
 											paid={paid}
 											billIds={billIds}
 											setBillIds={setBillIds}

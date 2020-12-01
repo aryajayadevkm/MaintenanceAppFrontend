@@ -13,11 +13,12 @@ const DueItem = ({ dueItem, setModalData, flatIds, setFlatIds }) => {
 			return item === id;
 		});
 	};
+	console.log(flatIds);
 
 	//   add/remove month-year from array
 	const onChange = () => {
 		var index = getIndex(id);
-		console.log("index" + index);
+		console.log("index of flatid " + index);
 		if (index === -1) {
 			setFlatIds([...flatIds, id]);
 		} else {
@@ -25,7 +26,6 @@ const DueItem = ({ dueItem, setModalData, flatIds, setFlatIds }) => {
 			idsCopy.splice(index, 1);
 			setFlatIds(idsCopy);
 		}
-		console.log(flatIds);
 	};
 	return (
 		<Fragment>
@@ -33,11 +33,11 @@ const DueItem = ({ dueItem, setModalData, flatIds, setFlatIds }) => {
 				<td>
 					<input
 						type="checkbox"
-						id={id}
+						id={`flatno.${id}`}
 						onClick={onChange}
 						checked={getIndex(id) !== -1 ? true : false}
 					/>
-					<label for={id} />
+					<label for={`flatno.${id}`} />
 				</td>
 				<div
 					className="container-small"
