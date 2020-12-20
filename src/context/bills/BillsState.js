@@ -12,7 +12,7 @@ const BillsState = (props) => {
 	const [state, dispatch] = useReducer(BillsReducer, initialState);
 
 	const getBills = async () => {
-		const res = await axios.get("http://localhost:8000/api/bills/");
+		const res = await axios.get("http://localhost:8000/api/invoices/");
 		dispatch({
 			type: GET_BILLS,
 			payload: res.data,

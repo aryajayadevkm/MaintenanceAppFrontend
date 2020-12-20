@@ -1,5 +1,4 @@
 import React, { useEffect, useContext, Fragment } from "react";
-import axios from "axios";
 import Spinner from "../layout/Spinner";
 import BillItem from "./BillItem";
 import BillContext from "../../context/bills/BillContext";

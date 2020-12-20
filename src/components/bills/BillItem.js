@@ -7,16 +7,7 @@ const BillItem = ({ bill }) => {
 	const { date, flat_no, tr_type, amount, applied, balance } = bill;
 
 	return (
-		<tr
-		// style={{
-		// 	color:
-		// 		Math.abs(applied) < Math.abs(amount)
-		// 			? tr_type === "payment"
-		// 				? "black"
-		// 				: "red"
-		// 			: "lightgrey",
-		// }}
-		>
+		<tr>
 			<td>{Moment(date).format("DD MMM, YYYY")}</td>
 			<td>{flat_no}</td>
 			<td>{tr_type}</td>
