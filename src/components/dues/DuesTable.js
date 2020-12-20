@@ -21,7 +21,6 @@ const DuesTable = () => {
 	};
 	const onClick = (action) => {
 		var data = { flat_ids: flatIds, action: action };
-		// console.log(data);
 		billMatching({ flat_ids: flatIds, action: action });
 	};
 	return (
@@ -71,6 +70,7 @@ const DuesTable = () => {
 									<div>
 										<th>Flat no</th>
 										<th className="pl-5">Owner</th>
+										<th className=" pl-6">Total dues</th>
 									</div>
 								</tr>
 							</thead>

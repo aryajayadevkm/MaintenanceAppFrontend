@@ -2,7 +2,6 @@ import React, { Fragment, useState, useEffect } from "react";
 import Moment from "moment";
 
 const PaymentRow = ({
-	key,
 	bill,
 	paid,
 	paidCopy,
@@ -14,16 +13,13 @@ const PaymentRow = ({
 		applied: 0,
 		balance: bill.balance,
 	});
-	console.log("key ", key);
-	console.log("id ", bill.id);
+
 	const getIndexFromBillIds = (id) => {
 		return billIds.findIndex((item) => {
 			return item === id;
 		});
 	};
 	const [isChecked, setIsChecked] = useState(false);
-	console.log(billIds);
-	console.log("bill id " + bill.id);
 
 	const fillPayment = (id) => {
 		paidCopy = parseInt(paidCopy);
@@ -83,7 +79,6 @@ const PaymentRow = ({
 					<input
 						type="checkbox"
 						id={`billno.${bill.id}`}
-						// disabled={paidCopy < 0 ? true : false}
 						onChange={onChange}
 						checked={isChecked}
 					/>

@@ -15,8 +15,6 @@ const DuesState = (props) => {
 	const [state, dispatch] = useReducer(duesReducer, initialState);
 	const billContext = useContext(BillContext);
 	const { getBills } = billContext;
-	// console.log("hi");
-	// console.log(getBills);
 
 	// Get dues
 	const getDues = async () => {
@@ -42,6 +40,7 @@ const DuesState = (props) => {
 		});
 		console.log(res.data);
 	};
+
 	// Match or unmatch bills
 	const billMatching = async (billIds) => {
 		const config = {

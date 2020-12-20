@@ -7,15 +7,16 @@ const DueItem = ({ dueItem, setModalData, flatIds, setFlatIds }) => {
 	const dueContext = useContext(DueContext);
 	const { id, flat_no, owner_name } = dueItem;
 
-	//   check if month-year already selected
 	const getIndex = (id) => {
 		return flatIds.findIndex((item) => {
 			return item === id;
 		});
 	};
 	console.log(flatIds);
+	const totalDue = dueItem.dues.reduce(function (sum, current) {
+		return sum + current.balance;
+	}, 0);
 
-	//   add/remove month-year from array
 	const onChange = () => {
 		var index = getIndex(id);
 		console.log("index of flatid " + index);
@@ -46,8 +47,9 @@ const DueItem = ({ dueItem, setModalData, flatIds, setFlatIds }) => {
 						setModalData(dueItem);
 					}}
 				>
-					<td className="">{flat_no}</td>
-					<td className="pl-6">{owner_name}</td>
+					<td>{flat_no}</td>
+					<td className="pl-6 has-background-danger-light">{owner_name}</td>
+					<td className=" has-background-info">{totalDue}</td>
 				</div>
 			</tr>
 		</Fragment>

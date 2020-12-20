@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
 import "./bulma-0.9.0/css/bulma.css";
@@ -6,9 +7,12 @@ import Navbar from "./components/layout/Navbar";
 import Sidenav from "./components/layout/Sidenav";
 import Home from "./components/pages/Home";
 import Dues from "./components/pages/DuesPage";
+import Flats from "./components/pages/FlatsPage";
 import Titlebar from "./components/layout/Titlebar";
 import DuesState from "./context/dues/DuesState";
 import BillsState from "./context/bills/BillsState";
+import FlatsState from "./context/flats/FlatsState";
+import ResidentState from "./context/residents/ResidentState";
 
 import "./App.sass";
 function App() {
@@ -26,11 +30,16 @@ function App() {
 							<div className="tile is-child">
 								<Switch>
 									<Route exact path="/" component={Home} />
-									<BillsState>
-										<DuesState>
-											<Route exact path="/dues" component={Dues} />
-										</DuesState>
-									</BillsState>
+									<ResidentState>
+										<FlatsState>
+											<BillsState>
+												<DuesState>
+													<Route exact path="/dues" component={Dues} />
+												</DuesState>
+											</BillsState>
+											<Route exact path="/flats" component={Flats} />
+										</FlatsState>
+									</ResidentState>
 								</Switch>
 							</div>
 						</div>
